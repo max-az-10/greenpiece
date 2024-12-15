@@ -62,6 +62,16 @@ pipeline {
 					
                         }
                 }
+		stage('Update services') {
+                        steps {
+                                withCredentials([usernamePassword(credentialsId: 'Aws-cred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                                        script {
+                                        	sh "aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --task-definition $ECS_TASK_DEFINITION  --force-new-deployment"
+                                        }
+                                }
+
+                        }
+                }
 
 	}
 }
