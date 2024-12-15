@@ -15,12 +15,13 @@ pipeline {
                 }
 
 		stage('SonarQube Analysis') {
-   			withSonarQubeEnv('SonarQube') {
-      				steps {
-					sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner"
-    				}	
-  			}
+			withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'Sonar_Token')]) {
+   				withSonarQubeEnv('SonarQube') {
+      					steps {
+						sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner"
+    					}	
+  				}
+			}
 		}
-		
 	}
 }
